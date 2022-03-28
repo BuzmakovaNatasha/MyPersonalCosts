@@ -17,15 +17,10 @@
           <strong class="colum-name__el">Category</strong>
           <strong class="colum-name__el">Value</strong>
         </div>
-        <PaymentDisplay
-          :list="this.paymentsList"
-          :number="this.pageNumberMain"
-          :size="this.size"
-        />
+        <PaymentDisplay :list="listShow" />
         <PaginationComp
           @showPageNumber="showPaymentsListPage"
-          :paymentListLength="this.paymentsList.length"
-          :size="this.size"
+          :pageCount="pageCount"
         />
       </main>
     </div>
@@ -47,41 +42,57 @@ export default {
   data() {
     return {
       showForm: false,
-      paymentsList: [],
       size: 5,
       pageNumberMain: 1,
     };
   },
-  computed: {},
-  methods: {
-    fetchData() {
-      return [
-        {
-          date: "28.03.2020",
-          category: "Food",
-          value: 169,
-        },
-        {
-          date: "24.03.2020",
-          category: "Transport",
-          value: 360,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-      ];
+  computed: {
+    getFPV() {
+      return this.$store.getters.getFullPaymentValue;
     },
+    paymentsList() {
+      return this.$store.getters.getPaymentList;
+    },
+    listShow() {
+      const start = (this.pageNumberMain - 1) * this.size;
+      const end = start + this.size;
+      return this.paymentsList.slice(start, end);
+    },
+    pageCount() {
+      return Math.ceil(this.paymentsList.length / this.size);
+    },
+  },
+  methods: {
+    // fetchData() {
+    //   return [
+    //     {
+    //       date: "28.03.2020",
+    //       category: "Food",
+    //       value: 169,
+    //     },
+    //     {
+    //       date: "24.03.2020",
+    //       category: "Transport",
+    //       value: 360,
+    //     },
+    //     {
+    //       date: "24.03.2020",
+    //       category: "Food",
+    //       value: 532,
+    //     },
+    //   ];
+    // },
     addData(data) {
-      this.paymentsList.push(data);
+      this.$store.commit("addDataPaymentList", data);
     },
     showPaymentsListPage(n) {
       this.pageNumberMain = n;
     },
   },
   created() {
-    this.paymentsList = this.fetchData();
+    if (!this.paymentsList.length) {
+      this.$store.dispatch("fetchData");
+    }
   },
 };
 </script>

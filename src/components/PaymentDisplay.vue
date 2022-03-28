@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <div class="item" v-for="item in listShow" :key="item.id">
+    <div class="item" v-for="item in list" :key="item.id">
       <span class="item__el">{{ item.date }}</span>
       <span class="item__el">{{ item.category }}</span>
       <span class="item__el">{{ item.value }}</span>
@@ -15,21 +15,6 @@ export default {
     list: {
       type: Array,
       default: () => [],
-    },
-    number: {
-      type: Number,
-    },
-    size: {
-      type: Number,
-      required: false,
-      default: 5,
-    },
-  },
-  computed: {
-    listShow() {
-      const start = (this.number - 1) * this.size;
-      const end = start + this.size;
-      return this.list.slice(start, end);
     },
   },
 };

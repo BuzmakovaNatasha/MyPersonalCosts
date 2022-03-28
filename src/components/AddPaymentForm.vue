@@ -1,15 +1,27 @@
 <template>
   <div class="form">
     <input placeholder="Date" v-model="date" />
-    <input placeholder="Category" v-model="category" />
+    <div class="category-list" v-if="categoryList.length">
+      <select v-model="category">
+        <option v-for="(option, idx) in categoryList" :key="idx">
+          {{ option }}
+        </option>
+      </select>
+      <AddListOfCategories @addNewCategory="addCategory" />
+    </div>
     <input placeholder="Amount" v-model="value" />
     <button class="btn__save" @click="onSave">add +</button>
   </div>
 </template>
 
 <script>
+import AddListOfCategories from "./AddListOfCategories.vue";
+
 export default {
   name: "AddPaymentForm",
+  components: {
+    AddListOfCategories,
+  },
   data() {
     return {
       date: "",
@@ -32,6 +44,9 @@ export default {
 
       return `${d}.${m}.${y}`;
     },
+    categoryList() {
+      return this.$store.getters.getCategoryList;
+    },
   },
   methods: {
     onSave() {
@@ -42,6 +57,15 @@ export default {
       };
       this.$emit("addNewPayment", data);
     },
+    addCategory(category) {
+      this.categoryList.push(category);
+    },
+  },
+  async mounted() {
+    if (!this.categoryList.length) {
+      await this.$store.dispatch("fetchCategoryList");
+      this.category = this.categoryList[0];
+    }
   },
 };
 </script>
@@ -53,7 +77,15 @@ export default {
   width: 200px;
 }
 
-input {
+.category-list {
+  display: flex;
+  & select {
+    margin-right: 10px;
+  }
+}
+
+input,
+select {
   padding: 7px;
   box-sizing: border-box;
   margin-bottom: 10px;
@@ -68,5 +100,11 @@ input {
   background-color: #25a79a;
   border: none;
   border-radius: 3px;
+  &:hover {
+    background-color: #0a8375;
+  }
+  &:active {
+    background-color: #0a6255;
+  }
 }
 </style>
