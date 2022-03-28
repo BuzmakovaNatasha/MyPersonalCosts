@@ -26,18 +26,8 @@ export default {
     };
   },
   props: {
-    paymentListLength: {
+    pageCount: {
       type: Number,
-    },
-    size: {
-      type: Number,
-      required: false,
-      default: 5,
-    },
-  },
-  computed: {
-    pageCount() {
-      return Math.ceil(this.paymentListLength / this.size);
     },
   },
   methods: {
