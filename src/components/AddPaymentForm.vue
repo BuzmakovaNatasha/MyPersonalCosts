@@ -64,7 +64,17 @@ export default {
   async mounted() {
     if (!this.categoryList.length) {
       await this.$store.dispatch("fetchCategoryList");
-      this.category = this.categoryList[0];
+    }
+    if (this.$route.params?.category) {
+      this.category = this.$route.params.category;
+      if (this.$route.query?.value) {
+        this.value = this.$route.query.value;
+        if (this.category && this.value) {
+          this.onSave();
+          this.category = "";
+          this.value = "";
+        }
+      }
     }
   },
 };
