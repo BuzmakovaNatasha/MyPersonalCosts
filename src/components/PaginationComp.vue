@@ -29,6 +29,9 @@ export default {
     pageCount: {
       type: Number,
     },
+    numberPageMain: {
+      type: Number,
+    },
   },
   methods: {
     nextPage() {
@@ -44,7 +47,7 @@ export default {
       this.$emit("showPageNumber", this.pageNumber);
     },
     isPageActive(n) {
-      return this.pageNumber === n;
+      return this.numberPageMain === n;
     },
   },
 };

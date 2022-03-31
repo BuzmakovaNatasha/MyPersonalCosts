@@ -1,138 +1,53 @@
 <template>
   <div id="app">
-    <div class="wrapper">
-      <header>
-        <div class="title">My personal costs</div>
-      </header>
-      <main>
-        <button v-if="showForm" class="btn" @click="showForm = !showForm">
-          Close form
-        </button>
-        <button v-else class="btn" @click="showForm = !showForm">
-          Add new cost +
-        </button>
-        <AddPaymentForm @addNewPayment="addData" v-show="showForm" />
-        <div class="colum-name">
-          <strong class="colum-name__el">Date</strong>
-          <strong class="colum-name__el">Category</strong>
-          <strong class="colum-name__el">Value</strong>
-        </div>
-        <PaymentDisplay :list="listShow" />
-        <PaginationComp
-          @showPageNumber="showPaymentsListPage"
-          :pageCount="pageCount"
-        />
-      </main>
-    </div>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <router-link to="/about">About</router-link>
+      <div @click="goToPageAbout">Go About</div>
+    </nav>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import PaymentDisplay from "./components/PaymentDisplay.vue";
-import AddPaymentForm from "./components/AddPaymentForm.vue";
-import PaginationComp from "./components/PaginationComp.vue";
-
-export default {
+    export default {
   name: "App",
-  components: {
-    PaymentDisplay,
-    AddPaymentForm,
-    PaginationComp,
-  },
-  data() {
-    return {
-      showForm: false,
-      size: 5,
-      pageNumberMain: 1,
-    };
-  },
-  computed: {
-    getFPV() {
-      return this.$store.getters.getFullPaymentValue;
-    },
-    paymentsList() {
-      return this.$store.getters.getPaymentList;
-    },
-    listShow() {
-      const start = (this.pageNumberMain - 1) * this.size;
-      const end = start + this.size;
-      return this.paymentsList.slice(start, end);
-    },
-    pageCount() {
-      return Math.ceil(this.paymentsList.length / this.size);
-    },
-  },
   methods: {
-    // fetchData() {
-    //   return [
-    //     {
-    //       date: "28.03.2020",
-    //       category: "Food",
-    //       value: 169,
-    //     },
-    //     {
-    //       date: "24.03.2020",
-    //       category: "Transport",
-    //       value: 360,
-    //     },
-    //     {
-    //       date: "24.03.2020",
-    //       category: "Food",
-    //       value: 532,
-    //     },
-    //   ];
-    // },
-    addData(data) {
-      this.$store.commit("addDataPaymentList", data);
-    },
-    showPaymentsListPage(n) {
-      this.pageNumberMain = n;
-    },
-  },
-  created() {
-    if (!this.paymentsList.length) {
-      this.$store.dispatch("fetchData");
+    goToPageAbout(){
+        this.$router.push({
+            name: 'about',
+            params: {
+                isTrial: 0
+            },
+            query: {
+                isTrial: 1
+            },
+        })
     }
   },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
-  margin-top: 30px;
-  margin-left: 30px;
 }
 
-.wrapper {
-  font-size: 18px;
-}
+nav {
+  padding: 30px;
 
-.title {
-  font-size: 34px;
-}
+  a {
+    font-weight: bold;
+    color: #2c3e50;
 
-.btn {
-  padding: 7px;
-  box-sizing: border-box;
-  color: #fff;
-  text-transform: uppercase;
-  background-color: #25a79a;
-  border: none;
-  border-radius: 3px;
-  margin: 15px 0;
-}
-
-.colum-name {
-  display: flex;
-  padding: 15px 0;
-  box-sizing: border-box;
-
-  &__el {
-    width: 150px;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
   }
 }
 </style>
