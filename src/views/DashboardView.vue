@@ -5,13 +5,9 @@
         <div class="title">My personal costs</div>
       </header>
       <main>
-        <button v-if="showForm" class="btn" @click="showForm = !showForm">
-          Close form
-        </button>
-        <button v-else class="btn" @click="showForm = !showForm">
+        <button class="btn" @click="openForm">
           Add new cost +
         </button>
-        <AddPaymentForm @addNewPayment="addData" v-show="showForm" />
         <div class="colum-name">
           <strong class="colum-name__el">Date</strong>
           <strong class="colum-name__el">Category</strong>
@@ -30,19 +26,16 @@
 
 <script>
 import PaymentDisplay from "../components/PaymentDisplay.vue";
-import AddPaymentForm from "../components/AddPaymentForm.vue";
 import PaginationComp from "../components/PaginationComp.vue";
 
 export default {
   name: "App",
   components: {
     PaymentDisplay,
-    AddPaymentForm,
     PaginationComp,
   },
   data() {
     return {
-      showForm: false,
       size: 5,
       pageNumberMain: 1,
     };
@@ -89,17 +82,20 @@ export default {
     showPaymentsListPage(n) {
       this.pageNumberMain = n;
     },
+    openForm() {
+        this.$modal.show('AddPaymentForm', {
+          content: 'AddPaymentForm',
+          title: 'Add new payment'
+      })
+    }
   },
   async mounted() {
     if (!this.paymentsList.length) {
       await this.$store.dispatch("fetchData");
       this.pageNumberMain = Number(this.$route.params.page);
     }
-    if (this.$route.params?.category && !this.$route.query?.value) {
-      this.showForm = true;
-    }
-    if (this.$route.params?.category && this.$route.query?.value) {
-      this.pageNumberMain = this.pageCount;
+    if (this.$route.params?.category) {
+        this.openForm();
     }
   },
 };

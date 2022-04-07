@@ -4,6 +4,11 @@
       <span class="item__el">{{ item.date }}</span>
       <span class="item__el">{{ item.category }}</span>
       <span class="item__el">{{ item.value }}</span>
+      <span
+        class="item__el context-menu"
+        @click="OnClickContextMenu($event, item)"
+        >...</span
+      >
     </div>
   </div>
 </template>
@@ -17,6 +22,36 @@ export default {
       default: () => [],
     },
   },
+  methods: {
+    editItem(item) {
+      this.$modal.show("AddPaymentForm", {
+        content: "AddPaymentForm",
+        obj: item,
+        title: "Edit payment",
+      });
+      this.$menu.hide();
+    },
+    deleteItem(id) {
+      this.$store.commit("deleteDataPaymentList", id);
+    },
+    OnClickContextMenu(event, item) {
+      const actions = [
+        {
+          name: "Редактировать",
+          action: () => {
+            this.editItem(item);
+          },
+        },
+        {
+          name: "Удалить",
+          action: () => {
+            this.deleteItem(item.id);
+          },
+        },
+      ];
+      this.$menu.show({ event, actions });
+    },
+  },
 };
 </script>
 
@@ -24,7 +59,6 @@ export default {
 .list {
   display: flex;
   flex-direction: column;
-  width: 450px;
 }
 .item {
   display: flex;
@@ -34,7 +68,7 @@ export default {
   &::before {
     content: "";
     height: 1px;
-    width: 100%;
+    width: 500px;
     background-color: rgba(75, 75, 75, 0.527);
     position: absolute;
     top: 0;
@@ -43,6 +77,9 @@ export default {
   &__el {
     width: 150px;
     text-transform: capitalize;
+  }
+  & .context-menu {
+    cursor: pointer;
   }
 }
 </style>
