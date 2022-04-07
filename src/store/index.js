@@ -20,7 +20,18 @@ export default new Vuex.Store({
             state.paymentList = payload
         },
         addDataPaymentList(state, payload) {
+            payload.id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
             state.paymentList.push(payload)
+        },
+        editDataPaymentList(state, item) {
+            const index = state.paymentList.findIndex(el => el.id == item.id);
+            state.paymentList[index].date = item.date;
+            state.paymentList[index].category = item.category;
+            state.paymentList[index].value = item.value;
+        },
+        deleteDataPaymentList(state, id) {
+            const index = state.paymentList.findIndex(el => el.id == id);
+            state.paymentList.splice(index, 1);
         },
         addCategoryList(state, payload) {
             state.categoryList = payload

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import App from '../views/DashboardView.vue'
 
 Vue.use(VueRouter)
 
@@ -9,22 +7,24 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import(/* webpackChunkName: "HomeView" */ '../views/HomeView.vue')
   },
+  
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: App
+    component: () => import(/* webpackChunkName: "DashboardView" */ '../views/DashboardView.vue')
+
   },
   {
     path: '/dashboard/:page',
     name: 'dashboard',
-    component: App
+    component: () => import(/* webpackChunkName: "DashboardView" */ '../views/DashboardView.vue')
   },
   {
     path: '/add/payment/:category',
     name: 'AddPaymentList',
-    component: App
+    component: () => import(/* webpackChunkName: "DashboardView" */ '../views/DashboardView.vue')
   },
   {
     path: '/about*',
@@ -36,7 +36,7 @@ const routes = [
   },
   {
     path: '*',
-    component: HomeView
+    component: () => import(/* webpackChunkName: "HomeView" */ '../views/HomeView.vue')
   },
 ]
 
