@@ -5,7 +5,7 @@
       <span class="item__el">{{ item.category }}</span>
       <span class="item__el">{{ item.value }}</span>
       <span
-        class="item__el context-menu"
+        class="item__el context-menu" name="openContextMenu"
         @click="OnClickContextMenu($event, item)"
         >...</span
       >
