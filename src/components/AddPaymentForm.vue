@@ -9,7 +9,7 @@
       </select>
       <AddListOfCategories @addNewCategory="addCategory" />
     </div>
-    <input placeholder="Amount" v-model="value" />
+    <input placeholder="Amount" v-model="value" name="value"/>
     <button v-if="obj" class="btn__save" @click="onSave">Save</button>
     <button v-else class="btn__save" @click="onAdd">add +</button>
   </div>

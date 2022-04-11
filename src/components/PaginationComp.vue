@@ -1,18 +1,19 @@
 <template>
   <div class="pagination">
-    <button @click="prevPage" :disabled="pageNumber == 1">
-      <font-awesome-icon icon="fa-solid fa-angle-left" />
+    <button @click="prevPage" :disabled="pageNumber == 1" name="left">
+      <font-awesome-icon icon="fa-solid fa-angle-left"/>
     </button>
-    <button
+    <button      
       v-for="n in pageCount"
       :key="n"
       @click="onPageNumber(n)"
       :class="{ active: isPageActive(n) }"
+      :name="n"
     >
       {{ n }}
     </button>
-    <button @click="nextPage" :disabled="pageNumber >= pageCount">
-      <font-awesome-icon icon="fa-solid fa-angle-right" />
+    <button @click="nextPage" :disabled="pageNumber >= pageCount" name="right">
+      <font-awesome-icon icon="fa-solid fa-angle-right"/>
     </button>
   </div>
 </template>

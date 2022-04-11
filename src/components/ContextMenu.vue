@@ -70,8 +70,6 @@ export default {
   padding: 15px;
   box-sizing: border-box;
   position: absolute;
-  top: 70%;
-  left: 320px;
   background: #ffffff;
   border: 1px solid #000;
   & .menu__item {
