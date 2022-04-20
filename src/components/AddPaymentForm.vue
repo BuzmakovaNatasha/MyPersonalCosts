@@ -1,18 +1,14 @@
 <template>
-  <div class="form">
-    <input placeholder="Date" v-model="date" />
-    <div class="category-list" v-if="categoryList.length">
-      <select v-model="category">
-        <option v-for="(option, idx) in categoryList" :key="idx">
-          {{ option }}
-        </option>
-      </select>
-      <AddListOfCategories @addNewCategory="addCategory" />
-    </div>
-    <input placeholder="Amount" v-model="value" name="value"/>
-    <button v-if="obj" class="btn__save" @click="onSave">Save</button>
-    <button v-else class="btn__save" @click="onAdd">add +</button>
-  </div>
+  <v-card class="text-left pa-8">
+    <v-text-field v-model="date" label="Date" />
+    <v-select v-model="category" :items="categoryList" label="Category" />
+    <AddListOfCategories @addNewCategory="addCategory" :dialog="dialog" />
+    <v-text-field v-model.number="value" label="Value" />
+    <v-btn v-if="obj != null" color="teal lighten-1" dark @click="onSave"
+      >Save</v-btn
+    >
+    <v-btn v-else color="teal lighten-1" dark @click="onAdd">Add</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -35,6 +31,12 @@ export default {
     obj: {
       type: Object,
     },
+    categoryList: {
+      type: Array,
+    },
+    dialog: {
+      type: Boolean,
+    },
   },
   computed: {
     getCurrentDate() {
@@ -51,9 +53,6 @@ export default {
 
       return `${d}.${m}.${y}`;
     },
-    categoryList() {
-      return this.$store.getters.getCategoryList;
-    },
   },
   methods: {
     onAdd() {
@@ -62,27 +61,52 @@ export default {
         category: this.category,
         value: this.value,
       };
-      this.$store.commit("addDataPaymentList", data);
-      this.$emit("addNewPayment", data);
+      if (this.category == "") {
+        alert("Нужно выбрать категорию");
+      } else {
+        this.$emit("addNewPayment", data);
+      }
+      console.log("Add");
     },
     addCategory(category) {
-      this.categoryList.push(category);
+      this.$store.commit("addNewCategory", category);
     },
     onSave() {
-      const item = {
+      console.log("Save");
+      const data = {
         date: this.date || this.getCurrentDate,
         category: this.category,
         value: this.value,
         id: this.obj.id,
       };
-      this.$store.commit("editDataPaymentList", item);
-      this.$modal.hide(); 
-      this.$menu.hide(); 
+      this.$store.commit("editDataPaymentList", data);
+      this.$emit("close");
     },
   },
-  async mounted() {
-    if (!this.categoryList.length) {
-      await this.$store.dispatch("fetchCategoryList");
+  watch: {
+    obj() {
+      // если прилетает новый объект, который надо редактировать, форма заполняется данными нового объекта
+      if (this.obj != null) {
+        this.date = this.obj.date;
+        this.category = this.obj.category;
+        this.value = this.obj.value;
+      }
+    },
+    dialog() {
+      // обнуление данных формы, если закрылось диалоговое окно
+      if (this.dialog == false) {
+        this.date = "";
+        this.category = "";
+        this.value = "";
+      }
+    },
+  },
+  mounted() {
+    // если прилетает объект, который надо редактировать, форма заполняется данными этого объекта
+    if (this.obj != null) {
+      this.date = this.obj.date;
+      this.category = this.obj.category;
+      this.value = this.obj.value;
     }
     if (this.$route.params?.category) {
       this.category = this.$route.params.category;
@@ -90,55 +114,12 @@ export default {
         this.value = this.$route.query.value;
         if (this.category && this.value) {
           this.onAdd();
-          this.category = "";
-          this.value = "";
-          this.$modal.hide();
         }
       }
-    }
-    if (this.obj) {
-      this.date = this.obj.date;
-      this.category = this.obj.category;
-      this.value = this.obj.value;
     }
   },
 };
 </script>
 
 <style lang='scss' scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
-.category-list {
-  display: flex;
-  & select {
-    margin-right: 10px;
-  }
-}
-
-input,
-select {
-  padding: 7px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-}
-
-.btn__save {
-  width: 120px;
-  padding: 7px;
-  box-sizing: border-box;
-  color: #fff;
-  text-transform: uppercase;
-  background-color: #25a79a;
-  border: none;
-  border-radius: 3px;
-  &:hover {
-    background-color: #0a8375;
-  }
-  &:active {
-    background-color: #0a6255;
-  }
-}
 </style>

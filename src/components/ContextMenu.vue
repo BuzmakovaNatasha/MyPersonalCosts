@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div class="wrapper-menu" v-if="showMenu" :style="styles">
     <span
       class="menu__item"
@@ -25,8 +25,8 @@ export default {
   computed: {
     styles() {
       return {
-        left: `${this.xPos - 100}px`,
-        top: `${this.yPos + 23}px`,
+        left: `${this.xPos - 110}px`,
+        top: `${this.yPos - 30}px`,
       };
     },
   },
