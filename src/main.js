@@ -1,27 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueApexCharts from "vue-apexcharts";
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import store from './store'
 import router from './router'
-import modal from './pugins/ModalWindow'
-import menu from './pugins/ContextMenu'
-
-library.add(faAngleLeft, faAngleRight)
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+import modal from './plugins/ModalWindow'
+import menu from './plugins/ContextMenu'
+import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 Vue.use(modal)
 Vue.use(menu)
 
+Vue.use(VueApexCharts);
+Vue.component("apexChart", VueApexCharts);
+
 new Vue({
     store,
     router,
+    vuetify,
     render: h => h(App)
 }).$mount('#app')
-
-

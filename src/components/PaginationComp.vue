@@ -1,20 +1,11 @@
 <template>
-  <div class="pagination">
-    <button @click="prevPage" :disabled="pageNumber == 1" name="left">
-      <font-awesome-icon icon="fa-solid fa-angle-left"/>
-    </button>
-    <button      
-      v-for="n in pageCount"
-      :key="n"
-      @click="onPageNumber(n)"
-      :class="{ active: isPageActive(n) }"
-      :name="n"
-    >
-      {{ n }}
-    </button>
-    <button @click="nextPage" :disabled="pageNumber >= pageCount" name="right">
-      <font-awesome-icon icon="fa-solid fa-angle-right"/>
-    </button>
+  <div class="text-center">
+    <v-pagination
+      plain
+      v-model="pageNumber"
+      :length="pageCount"
+      @input="onPageNumber()"
+    ></v-pagination>
   </div>
 </template>
 
@@ -30,45 +21,22 @@ export default {
     pageCount: {
       type: Number,
     },
-    numberPageMain: {
-      type: Number,
-    },
+    pageNumberMain: {
+        type: Number,
+    },    
   },
   methods: {
-    nextPage() {
-      this.pageNumber++;
+    onPageNumber() {
       this.$emit("showPageNumber", this.pageNumber);
-    },
-    prevPage() {
-      this.pageNumber--;
-      this.$emit("showPageNumber", this.pageNumber);
-    },
-    onPageNumber(n) {
-      this.pageNumber = n;
-      this.$emit("showPageNumber", this.pageNumber);
-    },
-    isPageActive(n) {
-      return this.numberPageMain === n;
     },
   },
+  watch: {
+      pageNumberMain() {
+          this.pageNumber = this.pageNumberMain
+      }
+  }
 };
 </script>
 
 <style lang='scss' scoped>
-.pagination {
-  display: flex;
-  width: 450px;
-  justify-content: center;
-  border: 1px solid #000;
-  padding: 10px;
-  box-sizing: border-box;
-  & button {
-    border: none;
-    background-color: transparent;
-    margin: 0 5px;
-  }
-  .active {
-    color: #00aaff;
-  }
-}
 </style>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649664817314" clover="3.2.0">
-  <project timestamp="1649664817314" name="All files">
-    <metrics statements="294" coveredstatements="6" conditionals="350" coveredconditionals="0" methods="137" coveredmethods="4" elements="781" coveredelements="10" complexity="0" loc="294" ncloc="294" packages="9" files="20" classes="20"/>
+<coverage generated="1649666474740" clover="3.2.0">
+  <project timestamp="1649666474740" name="All files">
+    <metrics statements="294" coveredstatements="15" conditionals="350" coveredconditionals="0" methods="137" coveredmethods="8" elements="781" coveredelements="23" complexity="0" loc="294" ncloc="294" packages="9" files="20" classes="20"/>
     <package name="vue-project">
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="babel.config.js" path="O:\Natali\GeekBrains\010 Vue.js\Урок 7\VueProject\vue-project\babel.config.js">
@@ -321,10 +321,10 @@
       </file>
     </package>
     <package name="vue-project.src.store">
-      <metrics statements="25" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
+      <metrics statements="25" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
       <file name="index.js" path="O:\Natali\GeekBrains\010 Vue.js\Урок 7\VueProject\vue-project\src\store\index.js">
-        <metrics statements="25" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
-        <line num="4" count="0" type="stmt"/>
+        <metrics statements="25" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
+        <line num="4" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -352,27 +352,27 @@
       </file>
     </package>
     <package name="vue-project.src.views">
-      <metrics statements="20" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="12" coveredmethods="0"/>
+      <metrics statements="20" coveredstatements="8" conditionals="2" coveredconditionals="0" methods="12" coveredmethods="4"/>
       <file name="AboutView.vue" path="O:\Natali\GeekBrains\010 Vue.js\Урок 7\VueProject\vue-project\src\views\AboutView.vue">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="13" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
       </file>
       <file name="DashboardView.vue" path="O:\Natali\GeekBrains\010 Vue.js\Урок 7\VueProject\vue-project\src\views\DashboardView.vue">
-        <metrics statements="17" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <metrics statements="17" coveredstatements="8" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="4"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
-        <line num="93" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="93" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="94" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
         <line num="97" count="0" type="cond" truecount="0" falsecount="1"/>

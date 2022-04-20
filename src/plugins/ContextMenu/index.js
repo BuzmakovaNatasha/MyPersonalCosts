@@ -14,7 +14,7 @@ export default {
                 const caller = event.target;
                 if(caller != this.caller) {
                     this.caller = caller;
-                    this.EventBus.$emit('shown', {actions, caller})
+                    this.EventBus.$emit('shown', { actions, caller })
                     console.log("showMenu");
                 }else {
                     this.hide();

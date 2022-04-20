@@ -1,21 +1,32 @@
 <template>
-  <div class="list">
-    <div class="item" v-for="item in list" :key="item.id">
-      <span class="item__el">{{ item.date }}</span>
-      <span class="item__el">{{ item.category }}</span>
-      <span class="item__el">{{ item.value }}</span>
-      <span
-        class="item__el context-menu" name="openContextMenu"
-        @click="OnClickContextMenu($event, item)"
-        >...</span
-      >
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col :cols="4">#</v-col>
+      <v-col :cols="3">Date</v-col>
+      <v-col :cols="3">Category</v-col>
+      <v-col :cols="2">Value</v-col>
+    </v-row>
+    <v-row v-for="item in list" :key="item.id">
+      <v-col :cols="4">{{ item.id }}</v-col>
+      <v-col :cols="3">{{ item.date }}</v-col>
+      <v-col :cols="3">{{ item.category }}</v-col>
+      <v-col :cols="1">{{ item.value }}</v-col>
+      <v-col :cols="1">
+        <v-btn icon @click="OnClickContextMenu($event, item)">
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
   name: "PaymentDisplay",
+  components: {},
+  data() {
+    return {};
+  },
   props: {
     list: {
       type: Array,
@@ -24,12 +35,7 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.$modal.show("AddPaymentForm", {
-        content: "AddPaymentForm",
-        obj: item,
-        title: "Edit payment",
-      });
-      this.$menu.hide();
+      this.$emit("itemEdit", item); // в Dashbord улетает объект, который нужно редактировать
     },
     deleteItem(id) {
       this.$store.commit("deleteDataPaymentList", id);
