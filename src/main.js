@@ -4,9 +4,10 @@ import VueApexCharts from "vue-apexcharts";
 
 import store from './store'
 import router from './router'
+import vuetify from './plugins/vuetify'
+
 import modal from './plugins/ModalWindow'
 import menu from './plugins/ContextMenu'
-import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 Vue.use(modal)

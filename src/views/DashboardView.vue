@@ -3,7 +3,6 @@
     <v-row>
       <v-col>
         <div class="text-h5 text-sm-h3 mb-3">My personal costs</div>
-
         <v-dialog v-model="dialog">
           <template #activator="{ on }">
             <v-btn color="teal lighten-1" dark v-on="on">
@@ -20,11 +19,12 @@
             />
           </v-card>
         </v-dialog>
-
-        <PaymentDisplay :list="listShow" @itemEdit="editItem" />
-
-        <ContextMenu />
-
+        
+        <PaymentDisplay
+          :list="listShow"
+          @itemEdit="editItem"
+          @openLastPage="openLastPage"
+        />
         <PaginationComp
           @showPageNumber="showPaymentsListPage"
           :pageCount="pageCount"
@@ -39,27 +39,6 @@
         />
       </v-col>
     </v-row>
-    <!-- <div id="app">
-      <div class="wrapper">
-        <header>
-          <div class="title">My personal costs</div>
-        </header>
-        <main>
-          <button class="btn" @click="openForm">Add new cost +</button>
-          <div class="colum-name">
-            <strong class="colum-name__el">Date</strong>
-            <strong class="colum-name__el">Category</strong>
-            <strong class="colum-name__el">Value</strong>
-          </div>
-          <PaymentDisplay :list="listShow" />
-          <PaginationComp
-            @showPageNumber="showPaymentsListPage"
-            :pageCount="pageCount"
-            :numberPageMain="this.pageNumberMain"
-          />
-        </main>
-      </div>
-    </div> -->
   </v-container>
 </template>
 
@@ -68,7 +47,7 @@ import PaymentDisplay from "../components/PaymentDisplay.vue";
 import AddPaymentForm from "../components/AddPaymentForm.vue";
 import PaginationComp from "../components/PaginationComp.vue";
 import DiagramComp from "../components/DiagramComp.vue";
-import ContextMenu from "../components/ContextMenu.vue";
+// import ContextMenu from "../components/ContextMenu.vue";
 
 export default {
   name: "App",
@@ -77,7 +56,7 @@ export default {
     AddPaymentForm,
     PaginationComp,
     DiagramComp,
-    ContextMenu,
+    // ContextMenu,
   },
   data() {
     return {
@@ -107,28 +86,13 @@ export default {
     },
   },
   methods: {
-    // fetchData() {
-    //   return [
-    //     {
-    //       date: "28.03.2020",
-    //       category: "Food",
-    //       value: 169,
-    //     },
-    //     {
-    //       date: "24.03.2020",
-    //       category: "Transport",
-    //       value: 360,
-    //     },
-    //     {
-    //       date: "24.03.2020",
-    //       category: "Food",
-    //       value: 532,
-    //     },
-    //   ];
-    // },
     addData(data) {
       this.$store.commit("addDataPaymentList", data);
       this.close();
+      this.openLastPage();
+    },
+    openLastPage() {
+      this.pageNumberMain = this.pageCount;
     },
     showPaymentsListPage(n) {
       this.pageNumberMain = n;
@@ -138,10 +102,20 @@ export default {
       this.itemEdit = item;
     },
     close() {
-      this.itemEdit = null;
+      if (this.$route.params?.category) {
+        this.$router.push({ name: `dashboard` });
+      }
+      if (this.itemEdit != null) {
+        this.itemEdit = null;
+      }
       this.dialog = false;
     },
   },
+//   watch: {
+//     $route() {
+//       console.log("Совершён переход по ссылке");
+//     },
+//   },
   async mounted() {
     if (!this.paymentsList.length) {
       await this.$store.dispatch("fetchData");

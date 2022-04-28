@@ -102,6 +102,7 @@ export default {
     },
   },
   mounted() {
+    console.log("hi");
     // если прилетает объект, который надо редактировать, форма заполняется данными этого объекта
     if (this.obj != null) {
       this.date = this.obj.date;
@@ -112,9 +113,7 @@ export default {
       this.category = this.$route.params.category;
       if (this.$route.query?.value) {
         this.value = this.$route.query.value;
-        if (this.category && this.value) {
-          this.onAdd();
-        }
+        this.onAdd();
       }
     }
   },
