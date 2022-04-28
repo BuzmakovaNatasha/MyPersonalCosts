@@ -11,19 +11,20 @@
       <v-col :cols="3">{{ item.date }}</v-col>
       <v-col :cols="3">{{ item.category }}</v-col>
       <v-col :cols="1">{{ item.value }}</v-col>
-      <v-col :cols="1">
-        <v-btn icon @click="OnClickContextMenu($event, item)">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+      <v-col :cols="1">        
+        <MenuContext :actions="transferActions(item)"/>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import MenuContext from "./MenuContext.vue";
 export default {
   name: "PaymentDisplay",
-  components: {},
+  components: {
+    MenuContext,
+  },
   data() {
     return {};
   },
@@ -35,12 +36,40 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.$emit("itemEdit", item); // в Dashbord улетает объект, который нужно редактировать
+      // в Dashbord улетает объект, который нужно редактировать
+      this.$emit("itemEdit", item);
     },
     deleteItem(id) {
-      this.$store.commit("deleteDataPaymentList", id);
+      const index = this.$store.state.paymentList.findIndex(
+        (el) => el.id == id
+      );
+      const lastIndex = this.$store.state.paymentList.length - 1;
+      if (index == lastIndex) {
+        // если удаляется последний платеж, на последней странице
+        this.$store.commit("deleteDataPaymentList", id);
+        this.$emit("openLastPage");
+      } else {
+        this.$store.commit("deleteDataPaymentList", id);
+      }
     },
-    OnClickContextMenu(event, item) {
+    // OnClickContextMenu(event, item) {
+    //   const actions = [
+    //     {
+    //       name: "Редактировать",
+    //       action: () => {
+    //         this.editItem(item);
+    //       },
+    //     },
+    //     {
+    //       name: "Удалить",
+    //       action: () => {
+    //         this.deleteItem(item.id);
+    //       },
+    //     },
+    //   ];
+    //   this.$menu.show({ event, actions });
+    // },
+    transferActions(item) {
       const actions = [
         {
           name: "Редактировать",
@@ -55,37 +84,11 @@ export default {
           },
         },
       ];
-      this.$menu.show({ event, actions });
+      return actions;
     },
   },
 };
 </script>
 
 <style lang='scss' scoped>
-.list {
-  display: flex;
-  flex-direction: column;
-}
-.item {
-  display: flex;
-  text-align: start;
-  padding: 20px 0;
-  position: relative;
-  &::before {
-    content: "";
-    height: 1px;
-    width: 500px;
-    background-color: rgba(75, 75, 75, 0.527);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  &__el {
-    width: 150px;
-    text-transform: capitalize;
-  }
-  & .context-menu {
-    cursor: pointer;
-  }
-}
 </style>

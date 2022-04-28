@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app flat>
-        <v-btn plain :ripple="false" to="/home">Home</v-btn>
+        <v-btn plain :ripple="false" to="/">Home</v-btn>
         <v-btn plain :ripple="false" to="/dashboard">Dashboard</v-btn>
         <v-btn plain :ripple="false" to="/about">About</v-btn>
     </v-app-bar>
@@ -17,7 +17,6 @@ export default {
   name: "App",
 
   data: () => ({
-    //
   }),
 };
 </script>
